@@ -9,7 +9,9 @@ function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g
 const defaultEmbedScriptLoadTimeout = 2000;
 
 function appendHtml(html, container, timeOut = defaultEmbedScriptLoadTimeout) {return __async(function*(){
-  const htmlParts = html.split(/<script[\s\S]*?<\/script>/);
+  const htmlParts = html
+    .split(/(<script[\s\S]*?<\/script>)/)
+    .filter(htmlPart => htmlPart !== '');
   for (const htmlPart of htmlParts) {
     yield appendEmbedPart(htmlPart, container, timeOut);
   }
@@ -54,6 +56,7 @@ function getScriptNodeFromHtmlString(htmlString) {
   for (const attr of nonExecutableScriptNode.attributes) {
     executableScriptNode.setAttribute(attr.name, attr.value);
   }
+  executableScriptNode.text = nonExecutableScriptNode.text;
   return executableScriptNode;
 }
 

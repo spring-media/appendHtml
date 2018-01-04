@@ -1,7 +1,9 @@
 const defaultEmbedScriptLoadTimeout = 2000;
 
 async function appendHtml(html, container, timeOut = defaultEmbedScriptLoadTimeout) {
-  const htmlParts = html.split(/<script[\s\S]*?<\/script>/);
+  const htmlParts = html
+    .split(/(<script[\s\S]*?<\/script>)/)
+    .filter(htmlPart => htmlPart !== '');
   for (const htmlPart of htmlParts) {
     await appendEmbedPart(htmlPart, container, timeOut);
   }
@@ -46,6 +48,7 @@ function getScriptNodeFromHtmlString(htmlString) {
   for (const attr of nonExecutableScriptNode.attributes) {
     executableScriptNode.setAttribute(attr.name, attr.value);
   }
+  executableScriptNode.text = nonExecutableScriptNode.text;
   return executableScriptNode;
 }
 
