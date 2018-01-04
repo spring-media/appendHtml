@@ -94,4 +94,10 @@ describe('appendHtml', function() {
   it('should not immediately resolve promise for non-async nodes', function () {
   });
 
+  it('should execute sync nodes and insert html in order', function () {
+  });
+
+  it('should execute async nodes and insert html in order', function () {
+  });
+
 });
