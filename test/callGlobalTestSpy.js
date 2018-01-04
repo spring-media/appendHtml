@@ -1,1 +1,1 @@
-window.globalTestSpy('callFromScriptFile');
+window.globalTestSpy();

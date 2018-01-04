@@ -69,7 +69,7 @@ describe('appendHtml', function() {
 
   it('should execute a script node with script contents', function (done) {
     window.globalTestSpy.reset();
-    const html = '<script>window.globalTestSpy(\'foo\');</script>';
+    const html = '<script>window.globalTestSpy();</script>';
     appendHtml(html, container).then(function () {
       expect(window.globalTestSpy).to.have.been.called();
       done();
