@@ -34,7 +34,7 @@ describe('appendHtml', function() {
   });
 
   it('should insert a single script node', function (done) {
-    const html = '<script>const foo = \'bar\';</script>';
+    const html = '<script>(function() { const foo = \'bar\'; })();</script>';
     appendHtml(html, container).then(function () {
         assert.equal(container.childNodes.length, 1);
         assert.equal(container.childNodes[0].outerHTML, html);
@@ -42,7 +42,17 @@ describe('appendHtml', function() {
       });
   });
 
-  it('should insert text, html and script nodes altogether', function () {
+  it('should insert text, html and script nodes altogether', function (done) {
+    const html = '<p>Foo</p>Bar<p>Baz</p><script>(function() { const foo = \'bar\'; })();</script>';
+    appendHtml(html, container).then(function () {
+      assert.equal(container.childNodes.length, 4);
+      assert.equal(container.childNodes[0].outerHTML, '<p>Foo</p>');
+      assert.equal(container.childNodes[1].nodeType, Node.TEXT_NODE);
+      assert.equal(container.childNodes[1].data, 'Bar');
+      assert.equal(container.childNodes[2].outerHTML, '<p>Baz</p>');
+      assert.equal(container.childNodes[3].outerHTML, '<script>(function() { const foo = \'bar\'; })();</script>');
+      done();
+    });
   });
 
   it('should execute a script node with a src attribute', function () {
