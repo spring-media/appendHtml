@@ -29,7 +29,7 @@ function appendNonScriptHtml(text, container) {
 async function appendScript(scriptAsText, container, timeOut) {
   const scriptNode = getScriptNodeFromHtmlString(scriptAsText);
   container.appendChild(scriptNode);
-  if (!scriptNode.async) {
+  if (scriptNode.hasAttribute('src') && !scriptNode.hasAttribute('async')) {
     await waitForScriptLoaded(scriptNode, timeOut);
   }
 }

@@ -1,8 +1,11 @@
 const assert = chai.assert;
+const expect = chai.expect;
 
 describe('appendHtml', function() {
 
   let container;
+
+  window.globalTestSpy = chai.spy();
 
   beforeEach(function () {
     container = document.createElement('div');
@@ -36,10 +39,10 @@ describe('appendHtml', function() {
   it('should insert a single script node', function (done) {
     const html = '<script>(function() { const foo = \'bar\'; })();</script>';
     appendHtml(html, container).then(function () {
-        assert.equal(container.childNodes.length, 1);
-        assert.equal(container.childNodes[0].outerHTML, html);
-        done();
-      });
+      assert.equal(container.childNodes.length, 1);
+      assert.equal(container.childNodes[0].outerHTML, html);
+      done();
+    });
   });
 
   it('should insert text, html and script nodes altogether', function (done) {
@@ -55,10 +58,22 @@ describe('appendHtml', function() {
     });
   });
 
-  it('should execute a script node with a src attribute', function () {
+  it('should execute a script node with a src attribute', function (done) {
+    window.globalTestSpy.reset();
+    const html = '<script src="./callGlobalTestSpy.js"></script>';
+    appendHtml(html, container).then(function () {
+      expect(window.globalTestSpy).to.have.been.called();
+      done();
+    });
   });
 
-  it('should execute a script node with script contents', function () {
+  it('should execute a script node with script contents', function (done) {
+    window.globalTestSpy.reset();
+    const html = '<script>window.globalTestSpy(\'foo\');</script>';
+    appendHtml(html, container).then(function () {
+      expect(window.globalTestSpy).to.have.been.called();
+      done();
+    });
   });
 
   it('should execute multiple script nodes with a src attribute', function () {
@@ -71,6 +86,12 @@ describe('appendHtml', function() {
   });
 
   it('should execute mixed script nodes and html', function () {
+  });
+
+  it('should immediately resolve promise for async nodes', function () {
+  });
+
+  it('should not immediately resolve promise for non-async nodes', function () {
   });
 
 });
