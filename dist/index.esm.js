@@ -17,8 +17,8 @@ function isScript(embedPart) {
 
 function appendNonScriptHtml(text, container) {
   const elements = htmlStringToElements(text);
-  for (const element of elements) {
-    container.appendChild(element);
+  while (elements.length) {
+    container.appendChild(elements[0]);
   }
 }
 
