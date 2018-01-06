@@ -29,15 +29,15 @@ rollup.js.
 ## Installation
 
 ```
-yarn add appendHtml
+yarn add appendhtml
 ```
 
 and then either of
 
 ```js
-import appendHtml from 'appendHtml';
-const appendHtml = require('appendHtml');
-// or <script src="node_modules/appendHtml/dist/index.umd.js"></script> which gives you a global function appendHtml
+import appendHtml from 'appendhtml';
+const appendHtml = require('appendhtml');
+// or <script src="node_modules/appendhtml/dist/index.umd.js"></script> which gives you a global function appendHtml
 ```
 
 ## Usage
@@ -57,7 +57,7 @@ The **return value** is a `Promise<void>` that resolves when all scripts have be
 
 **The first example, fixed**
 ```js
-import appendHtml from 'appendHtml';
+import appendHtml from 'appendhtml';
 const html = '<p>Hello</p><script>alert("world")</script>'; 
 const container = document.getElementById('some-div');
 appendHtml(html, container); // alerts "world"
@@ -65,7 +65,7 @@ appendHtml(html, container); // alerts "world"
 
 **Wait for script to load**
 ```js
-import appendHtml from 'appendHtml';
+import appendHtml from 'appendhtml';
 const html = '<p>Hello</p><script src="some_js_file.js"></script>'; 
 const container = document.getElementById('some-div');
 await appendHtml(html, container);
@@ -74,11 +74,11 @@ await appendHtml(html, container);
 
 **Fancy example**
 ```js
-import appendHtml from 'appendHtml';
+import appendHtml from 'appendhtml';
 const response = await fetch('https://publish.twitter.com/oembed?url=https://twitter.com/luke_schmuke/status/766775290404233217');
 const json = await response.json();
 const container = document.getElementById('some-div');
-await appendHtml(json.html, container);
+await appendhtml(json.html, container);
 // Hooray, we just embedded a tweet
 ```
 

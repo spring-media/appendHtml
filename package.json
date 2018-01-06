@@ -1,5 +1,5 @@
 {
-  "name": "appendHtml",
+  "name": "appendhtml",
   "version": "1.0.0",
   "description": "Appends HTML to an element and makes sure <scripts> run properly",
   "main": "dist/index.cjs.js",
