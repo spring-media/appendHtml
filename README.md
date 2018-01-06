@@ -51,7 +51,7 @@ const appendHtml = require('appendHtml');
 | **timeOut** (optional!) | A timeout in milliseconds to wait for scripts to load before resolving the returned Promise. Note that the Promise will never be rejected, it will be _resolved_ after the timeout because this is the behaviour of browsers. | 2000 |
 
 
-The **return value** is a `Promise` that resolves when all scripts have been loaded (or when scripts are `async` or the timeout is hit).
+The **return value** is a `Promise<void>` that resolves when all scripts have been loaded (or when scripts are `async` or the timeout is hit).
 
 ### Examples
 
