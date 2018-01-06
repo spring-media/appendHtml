@@ -165,13 +165,49 @@ describe('appendHtml', function() {
     });
   });
 
-  it('should execute sync nodes and insert html in order', function (done) {
-    // expect(window.globalTestSpy).to.have.been.called.with(undefined);
-    done();
+  it('should execute sync nodes before appending html', function (done) {
+    window.globalTestSpy.reset();
+    const html = '<script src="./countTestDiv.js"></script><div class="test-div"></div>';
+    appendHtml(html, container).then(function () {
+      expect(window.globalTestSpy).to.have.been.called.with(0);
+      done();
+    });
   });
 
-  it('should execute async nodes and insert html in order', function (done) {
-    done();
+  it('should execute sync nodes after appending html', function (done) {
+    window.globalTestSpy.reset();
+    const html = '<div class="test-div"></div><script src="./countTestDiv.js"></script>';
+    appendHtml(html, container).then(function () {
+      expect(window.globalTestSpy).to.have.been.called.with(1);
+      done();
+    });
+  });
+
+  it('should execute sync nodes and append html in order', function (done) {
+    window.globalTestSpy.reset();
+    const html = [
+      '<script src="./countTestDiv.js"></script>',
+      '<div class="test-div"></div>',
+      '<script src="./countTestDiv.js"></script>'
+    ].join('');
+    appendHtml(html, container).then(function () {
+      expect(window.globalTestSpy).to.have.been.called.with(0);
+      expect(window.globalTestSpy).to.have.been.called.with(1);
+      done();
+    });
+  });
+
+
+  it('should execute async nodes after appending html', function (done) {
+    window.globalTestSpy.reset();
+    const html = '<script src="./countTestDiv.js" async></script><div class="test-div"></div>';
+    appendHtml(html, container).then(function () {
+      expect(window.globalTestSpy).not.to.have.been.called();
+      window.setTimeout(function () {
+        expect(window.globalTestSpy).to.have.been.called.with(1);
+        done();
+      }, 20);
+    });
   });
 
 });
