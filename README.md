@@ -98,6 +98,11 @@ await appendhtml(json.html, container);
   <tbody>
 </table>
 
+## Testing
+
+Tests automated using BrowserStack for OSS
+
+<a href="http://browserstack.com/"> <img alt="BrowserStack Logo" height="100" src="https://p3.zdusercontent.com/attachment/1015988/JpXQsuf14xzgbKVXbbSsBP2Va?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..7I-YyrXJ5QjMDwJ698wapw.nsNgEo0pIK-a5tpDYlI7lh0cqfj13I5BiPH2A4TmTvDGyzSirDNSewWDmQmcY6RNBvvVSzOzfwgrpyqsCjkcwlpIRhNFansMxoJxNDkewpkEYcDIEDtvpvhbF1RC8wJ9YZ-GR33c1mVTxNG3XLINJgIE0504MU_4KhKwdo400cVQZqtLE5rl6a_8rb_nDM6RNu0zCWKF3YY73Q4SXsTfCe6zLPjcJHy6zRyzTQl5jRNu3ruZPewtdsALf04ftglLFvGH66Qms9z0kBhh_O1kTw.OgyEM4qBKehtTMRqu9cdBA" /></a>
 
 ## License
 
