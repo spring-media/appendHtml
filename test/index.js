@@ -122,6 +122,16 @@ describe('appendHtml', function() {
     });
   });
 
+  it('should reject promise with invalid src in script tag', function (done) {
+    window.globalTestSpy.reset();
+    const html = '<script src="./doesnotexist.js"></script>';
+    const promise = appendHtml(html, container, 1000);
+    promise.catch(function (err) {
+      expect(window.globalTestSpy).to.not.have.been.called();
+      done();
+    });
+  });
+
   it('should not immediately resolve promise for non-async nodes', function (done) {
     window.globalTestSpy.reset();
     const html = '<script src="./callGlobalTestSpy.js"></script>';

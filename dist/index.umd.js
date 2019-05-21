@@ -41,11 +41,15 @@ function appendScript(scriptAsText, container, timeOut) {return __async(function
 }())}
 
 function waitForScriptLoaded(scriptNode, timeOut) {
-  return new Promise(resolve => {
-    const loadFailTimeout = window.setTimeout(() => resolve(), timeOut);
+  return new Promise((resolve, reject) => {
+    const loadFailTimeout = window.setTimeout(() => reject(), timeOut);
     scriptNode.onload = () => {
       window.clearTimeout(loadFailTimeout);
       resolve();
+    };
+    scriptNode.onerror = (error) => {
+      window.clearTimeout(loadFailTimeout);
+      reject(error);
     };
   });
 }
