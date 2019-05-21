@@ -8,17 +8,23 @@ function __async(g){return new Promise(function(s,j){function c(a,x){try{var r=g
 
 const defaultEmbedScriptLoadTimeout = 2000;
 
-function appendHtml(html, container, timeOut = defaultEmbedScriptLoadTimeout) {return __async(function*(){
+function appendHtml(
+  html,
+  container,
+  timeOut = defaultEmbedScriptLoadTimeout
+) {return __async(function*(){
   const htmlParts = html
     .split(/(<script[\s\S]*?<\/script>)/)
-    .filter(htmlPart => htmlPart !== '');
+    .filter(htmlPart => htmlPart !== "");
   for (const htmlPart of htmlParts) {
     yield appendEmbedPart(htmlPart, container, timeOut);
   }
 }())}
 
 function appendEmbedPart(embedPart, container, timeOut) {return __async(function*(){
-  return isScript(embedPart) ? yield appendScript(embedPart, container, timeOut) : appendNonScriptHtml(embedPart, container);
+  return isScript(embedPart)
+    ? yield appendScript(embedPart, container, timeOut)
+    : appendNonScriptHtml(embedPart, container);
 }())}
 
 function isScript(embedPart) {
@@ -35,19 +41,22 @@ function appendNonScriptHtml(text, container) {
 function appendScript(scriptAsText, container, timeOut) {return __async(function*(){
   const scriptNode = getScriptNodeFromHtmlString(scriptAsText);
   container.appendChild(scriptNode);
-  if (scriptNode.hasAttribute('src') && !scriptNode.hasAttribute('async')) {
+  if (scriptNode.hasAttribute("src") && !scriptNode.hasAttribute("async")) {
     yield waitForScriptLoaded(scriptNode, timeOut);
   }
 }())}
 
 function waitForScriptLoaded(scriptNode, timeOut) {
   return new Promise((resolve, reject) => {
-    const loadFailTimeout = window.setTimeout(() => reject(), timeOut);
+    const loadFailTimeout = window.setTimeout(
+      () => reject(new Error("Timed out after " + timeOut + "ms")),
+      timeOut
+    );
     scriptNode.onload = () => {
       window.clearTimeout(loadFailTimeout);
       resolve();
     };
-    scriptNode.onerror = (error) => {
+    scriptNode.onerror = error => {
       window.clearTimeout(loadFailTimeout);
       reject(error);
     };
@@ -56,7 +65,7 @@ function waitForScriptLoaded(scriptNode, timeOut) {
 
 function getScriptNodeFromHtmlString(htmlString) {
   const nonExecutableScriptNode = htmlStringToElements(htmlString)[0];
-  const executableScriptNode = document.createElement('script');
+  const executableScriptNode = document.createElement("script");
   for (const attr of nonExecutableScriptNode.attributes) {
     executableScriptNode.setAttribute(attr.name, attr.value);
   }
@@ -65,7 +74,7 @@ function getScriptNodeFromHtmlString(htmlString) {
 }
 
 function htmlStringToElements(html) {
-  const template = document.createElement('template');
+  const template = document.createElement("template");
   template.innerHTML = html;
   return template.content.childNodes;
 }
